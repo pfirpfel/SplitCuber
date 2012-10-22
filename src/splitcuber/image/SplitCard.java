@@ -18,7 +18,7 @@ public class SplitCard {
         int width =  Math.max(left.getWidth(), left.getWidth());
         int height = left.getHeight() + CENTER_PADDING + right.getHeight();
         
-        splitImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        splitImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         
         Graphics g = splitImg.getGraphics();
         // set background
