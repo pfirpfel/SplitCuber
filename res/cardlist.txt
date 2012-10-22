@@ -6213,7 +6213,7 @@ Leery Fogbeast
 Legacy Weapon
 Legacy's Allure
 Legerdemain
-Legions of Lim-Dul
+Legions of Lim-Dûl
 Leonin Abunas
 Leonin Arbiter
 Leonin Armorguard
@@ -6325,12 +6325,12 @@ Liliana's Caress
 Liliana's Shade
 Liliana's Specter
 Lilting Refrain
-Lim-Dul the Necromancer
-Lim-Dul's Cohort
-Lim-Dul's Hex
-Lim-Dul's High Guard
-Lim-Dul's Paladin
-Lim-Dul's Vault
+Lim-Dûl the Necromancer
+Lim-Dûl's Cohort
+Lim-Dûl's Hex
+Lim-Dûl's High Guard
+Lim-Dûl's Paladin
+Lim-Dûl's Vault
 Limestone Golem
 Limited Resources
 Lin Sivvi, Defiant Hero
@@ -7641,7 +7641,7 @@ Oasis
 Oath of Druids
 Oath of Ghouls
 Oath of Lieges
-Oath of Lim-Dul
+Oath of Lim-Dûl
 Oath of Mages
 Oath of Scholars
 Oathkeeper, Takeno's Daisho
