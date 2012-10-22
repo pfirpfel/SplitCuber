@@ -82,27 +82,35 @@ public class SplitCuber {
             try {
                 if (useGatherer) {
                     left = GathererSingleCardImage.fetchByName(leftName, forceReload);
+                    try {
+                        Thread.sleep(25);
+                    } catch (InterruptedException e) {
+                        System.out.println("Sleep not possible: " + e.getMessage());
+                    }
                     right = GathererSingleCardImage.fetchByName(rightName, forceReload);
                 } else {
                     left = MagicCardsInfoSingleCardImage.fetchByName(leftName, forceReload);
+                    try {
+                        Thread.sleep(25);
+                    } catch (InterruptedException e) {
+                        System.out.println("Sleep not possible: " + e.getMessage());
+                    }
                     right = MagicCardsInfoSingleCardImage.fetchByName(rightName, forceReload);
                 }
-                SplitCard split = new SplitCard(left, right);
-                File path = new File(PATH);
-                if (!path.exists()) {
-                    path.mkdir();
+                if(left != null && right != null){
+                    SplitCard split = new SplitCard(left, right);
+                    File path = new File(PATH);
+                    if (!path.exists()) {
+                        path.mkdir();
+                    }
+                    File splitOut = new File(PATH + splitCardName + ".jpg");
+                    ImageIO.write(split.getSplitImage(), "JPG", splitOut);
+                    System.out.println("Succesfully generated '" + splitCardName + "'");
+                } else {
+                    throw new ImageError("Error loading image files");
                 }
-                File splitOut = new File(PATH + splitCardName + ".jpg");
-                ImageIO.write(split.getSplitImage(), "JPG", splitOut);
-                System.out.println("Succesfully generated '" + splitCardName + "'");
-
             } catch (ImageError | DictionaryError | WebFetchError | IOException e) {
                 System.out.println("Error generating '" + splitCardName + "': " + e.getMessage());
-            }
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                // do nothing
             }
         }
         
@@ -116,7 +124,8 @@ public class SplitCuber {
             } else {
                 String[] possibilities = CardDictionary.fuzzySearch(name);
                 if (possibilities.length == 0) {
-                    return "";
+                    System.out.println("No match found for: " + name + "!");
+                    System.exit(-1);
                 }
                 if (possibilities.length == 1) {
                     return possibilities[0];
@@ -143,6 +152,6 @@ public class SplitCuber {
             System.out.println("A problem occurred: " + e.getMessage());
             System.exit(-1);
         }
-        return "";
+        return name;
     }
 }
