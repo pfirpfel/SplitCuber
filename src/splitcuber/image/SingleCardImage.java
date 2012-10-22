@@ -15,8 +15,9 @@ import org.imgscalr.Scalr;
 import splitcuber.error.ImageError;
 
 public class SingleCardImage {
-    private String name;
-    private BufferedImage image;
+    protected String name;
+    protected BufferedImage image;
+    protected static final String IMAGE_PATH = "cache/singlecard/";
 
     public SingleCardImage(String name, File imagefile) throws ImageError {
         this.name = name;
@@ -39,7 +40,7 @@ public class SingleCardImage {
     public void rotateSideways() throws ImageError {
         BufferedImageOp[] biop = new BufferedImageOp[0];
         try {
-            image = Scalr.rotate(image, Scalr.Rotation.CW_90, biop);
+            image =  Scalr.rotate(image, Scalr.Rotation.CW_90, biop);
         } catch (IllegalArgumentException | ImagingOpException e) {
             throw new ImageError(e.getMessage());
         }
