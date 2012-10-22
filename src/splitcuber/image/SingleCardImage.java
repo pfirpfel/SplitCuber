@@ -36,6 +36,15 @@ public class SingleCardImage {
             throw new ImageError(e.getMessage());
         }
     }
+    
+    public void resize(int newWidth, int newHeight) throws ImageError {
+        BufferedImageOp[] biop = new BufferedImageOp[0];
+        try {
+            image = Scalr.resize(image, newWidth, newHeight, biop);
+        } catch (IllegalArgumentException | ImagingOpException e) {
+            throw new ImageError(e.getMessage());
+        }
+    }
 
     public void rotateSideways() throws ImageError {
         BufferedImageOp[] biop = new BufferedImageOp[0];
