@@ -49,7 +49,7 @@ public class CardDictionary {
         tempList.toArray(cardList);
         Arrays.sort(cardList, String.CASE_INSENSITIVE_ORDER);
     }
-
+    
     private static CardDictionary getInstance() throws DictionaryError {
         if (instance == null) {
             instance = new CardDictionary();
@@ -57,10 +57,22 @@ public class CardDictionary {
         return instance;
     }
     
+    /**
+     * Checks whether a card name is correctly spelled.
+     * @param name card name
+     * @return true if found in dictionary, false is not
+     * @throws DictionaryError thrown if the creation of the dictionary went wrong
+     */
     public static boolean isExactName(String name) throws DictionaryError{
         return Arrays.binarySearch(getInstance().cardList, name) >= 0;
     }
     
+    /**
+     * Returns a list of possible card names to a misspelled name.
+     * @param query misspelled card name
+     * @return String-array of possible matches
+     * @throws DictionaryError thrown if the creation of the dictionary went wrong
+     */
     public static String[] fuzzySearch(String query) throws DictionaryError{        
         ArrayList<String> suggestions = new ArrayList<String>();
         int suggestionsScore = Integer.MAX_VALUE;
