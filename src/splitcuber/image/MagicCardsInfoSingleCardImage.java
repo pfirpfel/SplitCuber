@@ -47,10 +47,15 @@ public class MagicCardsInfoSingleCardImage extends SingleCardImage {
         } else {
             URI uri;
             try {
-                uri = new URI("http", HOST, PATH, QUERY + name, null);
+                uri = new URI("http", HOST, PATH, QUERY + name, null); 
+                //lim-dul fix
+                String txtURL = uri.toString();
+                txtURL = txtURL.replaceAll("\u00FB", "%C3%BB");
+                uri = new URI(txtURL);
             } catch (URISyntaxException e) {
                 throw new MalformedURLException("URI Syntax: " + e.getMessage());
             }
+            
             String textHTML = FileFetcher.fetchText(uri.toURL());
             // String regex = "(scan)";
             String regex = "(http:\\/\\/magiccards\\.info\\/scans\\/[\\w\\/]+\\.jpg)";
