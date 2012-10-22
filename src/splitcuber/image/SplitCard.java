@@ -9,14 +9,14 @@ public class SplitCard {
     private SingleCardImage right;
     private BufferedImage splitImg;
     
-    private static final int CENTER_PADDING = 10;
+    private static final int CENTER_PADDING = 5;
     
     public SplitCard(SingleCardImage leftCard, SingleCardImage rightCard){
         left = leftCard;
         right = rightCard;
         
-        int width = left.getWidth() + CENTER_PADDING + right.getWidth();
-        int height = Math.max(left.getHeight(), left.getHeight());
+        int width =  Math.max(left.getWidth(), left.getWidth());
+        int height = left.getHeight() + CENTER_PADDING + right.getHeight();
         
         splitImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         
@@ -27,7 +27,7 @@ public class SplitCard {
         
         //adding split halves
         g.drawImage(left.getImage(), 0, 0, null);
-        g.drawImage(right.getImage(), left.getWidth() + CENTER_PADDING, 0, null);   
+        g.drawImage(right.getImage(), 0, left.getHeight() + CENTER_PADDING, null);   
     }
     
     public BufferedImage getSplitImage(){
