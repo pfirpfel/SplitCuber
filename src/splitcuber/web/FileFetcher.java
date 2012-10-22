@@ -40,7 +40,8 @@ public class FileFetcher {
             throw new WebFetchError(e.getMessage());
         } finally {
             try {
-                in.close();
+                if(in != null)
+                    in.close();
                 fOut.flush();
                 fOut.close();
             } catch (IOException e) {
