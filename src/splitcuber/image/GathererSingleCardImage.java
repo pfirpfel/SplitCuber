@@ -18,25 +18,33 @@ public class GathererSingleCardImage extends SingleCardImage {
 
     private static final String GATHERER_URL = "http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name=";
 
-    public GathererSingleCardImage(String name, File imagefile) throws ImageError {
+    public GathererSingleCardImage(String name, File imagefile, boolean alreadyDone) throws ImageError {
         super(name, imagefile);
-        crop(12, 12, 200, 285);
-        rotateSideways();
+        if (!alreadyDone) {
+            crop(12, 12, 200, 285);
+            rotateSideways();
+        }
     }
 
-    public static GathererSingleCardImage fetchByName(String name) throws ImageError, DictionaryError,
-            MalformedURLException, WebFetchError, IOException {
+    public static GathererSingleCardImage fetchByName(String name, boolean forceReload) throws ImageError,
+            DictionaryError, MalformedURLException, WebFetchError, IOException {
 
         if (CardDictionary.isExactName(name)) {
+            GathererSingleCardImage gathererImage;
             File path = new File(IMAGE_PATH);
-            if(!path.exists()){
+            if (!path.exists()) {
                 path.mkdir();
             }
             File image = new File(IMAGE_PATH + name + ".jpg");
-            URL imageURL = new URL(GATHERER_URL + name);
-            FileFetcher.fetchFile(imageURL, ContentType.JPEG, image);
-            GathererSingleCardImage gathererImage =  new GathererSingleCardImage(name, image);
-            ImageIO.write(gathererImage.image, "JPG", image);
+            if (image.exists() && !forceReload) {
+                // aus 'cache'
+                gathererImage = new GathererSingleCardImage(name, image, true);
+            } else {
+                URL imageURL = new URL(GATHERER_URL + name);
+                FileFetcher.fetchFile(imageURL, ContentType.JPEG, image);
+                gathererImage = new GathererSingleCardImage(name, image, false);
+                ImageIO.write(gathererImage.image, "JPG", image);
+            }
             return gathererImage;
         } else {
             return null;
