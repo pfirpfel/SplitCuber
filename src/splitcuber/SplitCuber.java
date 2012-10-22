@@ -29,20 +29,20 @@ public class SplitCuber {
 
         if (args.length == 0 || args.length > 3 || (args.length == 1 && args[0].endsWith("help"))) {
             String usage = "Usage: java SplitCuber TSV_LIST [-g|-m] [-r]\n" + "TSV_LIST: card list, tab-separated\n"
-                    + "(optional) source: -g Gatherer (default), -m MagicCards.info\n"
+                    + "(optional) source: -g Gatherer, -m MagicCards.info (default)\n"
                     + "(optional) reload: if set, forces redownload of already downloaded images";
             System.out.println(usage);
             System.exit(0);
         }
 
         String TSVPath = args[0];
-        boolean useGatherer = true;
-        if ((args.length == 2 && args[1].equals("-m"))
-                || (args.length == 3 && (args[1].equals("-m") || args[2].equals("-m")))) {
-            useGatherer = false;
-            System.out.println("Using MagicCards.info...");
-        } else {
+        boolean useGatherer = false;
+        if ((args.length == 2 && args[1].equals("-g"))
+                || (args.length == 3 && (args[1].equals("-g") || args[2].equals("-g")))) {
+            useGatherer = true;
             System.out.println("Using Gatherer...");
+        } else {
+            System.out.println("Using MagicCards.info...");
         }
 
         boolean forceReload = false;
