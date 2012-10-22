@@ -94,9 +94,15 @@ public class SplitCuber {
                 }
                 File splitOut = new File(PATH + splitCardName + ".jpg");
                 ImageIO.write(split.getSplitImage(), "JPG", splitOut);
+                System.out.println("Succesfully generated '" + splitCardName + "'");
 
             } catch (ImageError | DictionaryError | WebFetchError | IOException e) {
                 System.out.println("Error generating '" + splitCardName + "': " + e.getMessage());
+            }
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                // do nothing
             }
         }
         
