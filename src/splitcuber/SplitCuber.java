@@ -103,7 +103,7 @@ public class SplitCuber {
                     if (!path.exists()) {
                         path.mkdir();
                     }
-                    File splitOut = new File(PATH + splitCardName + ".jpg");
+                    File splitOut = new File(PATH + splitCardName.replaceAll("[\\\\\\/]", "#") + ".jpg");
                     ImageIO.write(split.getSplitImage(), "JPG", splitOut);
                     System.out.println("Succesfully generated '" + splitCardName + "'");
                 } else {

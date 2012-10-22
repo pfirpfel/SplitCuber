@@ -28,7 +28,7 @@ public class MagicCardsInfoSingleCardImage extends SingleCardImage {
         if (!alreadDone) {
             crop(6, 9, 299, 426);
             resize(200, 285);
-            rotateSideways();
+            //rotateSideways();
         }
     }
 
@@ -40,22 +40,23 @@ public class MagicCardsInfoSingleCardImage extends SingleCardImage {
         if (!path.exists()) {
             path.mkdir();
         }
-        File image = new File(IMAGE_PATH + name + ".jpg");
+        String filename = name.replaceAll("[\\\\\\/]", "#") + ".jpg";
+        File image = new File(IMAGE_PATH + filename);
         if (image.exists() && !forceReload) {
             // aus 'cache'
             magicCardsInfoImage = new MagicCardsInfoSingleCardImage(name, image, true);
         } else {
             URI uri;
             try {
-                uri = new URI("http", HOST, PATH, QUERY + name, null); 
-                //lim-dul fix
+                uri = new URI("http", HOST, PATH, QUERY + name, null);
+                // lim-dul fix
                 String txtURL = uri.toString();
                 txtURL = txtURL.replaceAll("\u00FB", "%C3%BB");
                 uri = new URI(txtURL);
             } catch (URISyntaxException e) {
                 throw new MalformedURLException("URI Syntax: " + e.getMessage());
             }
-            
+
             String textHTML = FileFetcher.fetchText(uri.toURL());
             // String regex = "(scan)";
             String regex = "(http:\\/\\/magiccards\\.info\\/scans\\/[\\w\\/]+\\.jpg)";

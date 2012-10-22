@@ -22,7 +22,7 @@ public class GathererSingleCardImage extends SingleCardImage {
         super(name, imagefile);
         if (!alreadyDone) {
             crop(12, 12, 200, 285);
-            rotateSideways();
+            //rotateSideways();
         }
     }
 
@@ -35,7 +35,8 @@ public class GathererSingleCardImage extends SingleCardImage {
             if (!path.exists()) {
                 path.mkdir();
             }
-            File image = new File(IMAGE_PATH + name + ".jpg");
+            String filename = name.replaceAll("[\\\\\\/]", "#") + ".jpg";
+            File image = new File(IMAGE_PATH + filename);
             if (image.exists() && !forceReload) {
                 // aus 'cache'
                 gathererImage = new GathererSingleCardImage(name, image, true);
