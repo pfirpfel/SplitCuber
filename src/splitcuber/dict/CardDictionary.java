@@ -45,7 +45,8 @@ public class CardDictionary {
                 throw new DictionaryError(e.getMessage());
             }
         }
-        cardList = (String[]) tempList.toArray();
+        cardList = new String[tempList.size()];
+        tempList.toArray(cardList);
         Arrays.sort(cardList, String.CASE_INSENSITIVE_ORDER);
     }
 
@@ -70,13 +71,12 @@ public class CardDictionary {
             currentScore = StringUtils.getLevenshteinDistance(query, s);
             if(currentScore < suggestionsScore){
                 suggestions.clear();
-                suggestions.add(s);
                 suggestionsScore = currentScore;
             }
             if(currentScore == suggestionsScore){
                 suggestions.add(s);
             }
         }
-        return (String[]) suggestions.toArray();
+        return suggestions.toArray( new String[suggestions.size()]);
     }
 }
