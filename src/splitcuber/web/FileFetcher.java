@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.DigestInputStream;
@@ -66,29 +65,21 @@ public class FileFetcher {
         return fetchFile(fileURL, expectedMimeType, fileStream);
     }
 
-    public static String fetchText(String textURL, ContentType expectedMimeType) throws WebFetchError {
+    public static String fetchText(URL url) throws WebFetchError {
         StringBuilder out = new StringBuilder();
         String nextLine;
-        URL url = null;
         URLConnection urlConn = null;
         InputStreamReader inStream = null;
         BufferedReader buff = null;
 
         try {
-            url = new URL(textURL);
             urlConn = url.openConnection();
-            urlConn.connect();
-            if (!expectedMimeType.doesEqual(urlConn.getContentType())) {
-                throw new WebFetchError("Content-type does not match.");
-            }
             inStream = new InputStreamReader(urlConn.getInputStream());
             buff = new BufferedReader(inStream);
             while ((nextLine = buff.readLine()) != null) {
                 out.append(nextLine);
             }
 
-        } catch (MalformedURLException e) {
-            throw new WebFetchError("Malformed URL: " + e.getMessage());
         } catch (IOException e) {
             throw new WebFetchError("IO problem: " + e.getMessage());
         }
