@@ -19,10 +19,10 @@ import splitcuber.dict.CardDictionary;
 import splitcuber.error.DictionaryError;
 import splitcuber.error.ImageError;
 import splitcuber.error.WebFetchError;
-import splitcuber.image.GathererSingleCardImage;
-import splitcuber.image.MagicCardsInfoSingleCardImage;
 import splitcuber.image.SingleCardImage;
 import splitcuber.image.SplitCard;
+import splitcuber.image.fetch.CachedFetch;
+import splitcuber.image.fetch.FetchSource;
 
 public class SplitCuber {
 
@@ -39,10 +39,10 @@ public class SplitCuber {
         }
 
         String TSVPath = args[0];
-        boolean useGatherer = false;
+        FetchSource source = FetchSource.MAGICCARDSINFO;
         if ((args.length == 2 && args[1].equals("-g"))
                 || (args.length == 3 && (args[1].equals("-g") || args[2].equals("-g")))) {
-            useGatherer = true;
+            source = FetchSource.GATHERER;
             System.out.println("Using Gatherer...");
         } else {
             System.out.println("Using MagicCards.info...");
@@ -84,13 +84,9 @@ public class SplitCuber {
             SingleCardImage left;
             SingleCardImage right;
             try {
-                if (useGatherer) {
-                    left = GathererSingleCardImage.fetchByName(leftName, forceReload);
-                    right = GathererSingleCardImage.fetchByName(rightName, forceReload);
-                } else {
-                    left = MagicCardsInfoSingleCardImage.fetchByName(leftName, forceReload);
-                    right = MagicCardsInfoSingleCardImage.fetchByName(rightName, forceReload);
-                }
+                left = CachedFetch.fetchByName(leftName, source, forceReload);
+                right = CachedFetch.fetchByName(rightName, source, forceReload);
+
                 if(left != null && right != null){
                     SplitCard split = new SplitCard(left, right);
                     File path = new File(PATH);
@@ -104,7 +100,7 @@ public class SplitCuber {
                 } else {
                     throw new ImageError("Error loading image files");
                 }
-            } catch (ImageError | DictionaryError | WebFetchError | IOException e) {
+            } catch (ImageError | WebFetchError | IOException e) {
                 System.out.println("Error generating '" + splitCardName + "': " + e.getMessage());
             }
         }
