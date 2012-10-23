@@ -46,6 +46,11 @@ public class MagicCardsInfoSingleCardImage extends SingleCardImage {
             // aus 'cache'
             magicCardsInfoImage = new MagicCardsInfoSingleCardImage(name, image, true);
         } else {
+            try {
+                Thread.sleep(25);
+            } catch (InterruptedException e) {
+                System.out.println("Sleep not possible: " + e.getMessage());
+            }
             URI uri;
             try {
                 uri = new URI("http", HOST, PATH, QUERY + name, null);

@@ -82,19 +82,9 @@ public class SplitCuber {
             try {
                 if (useGatherer) {
                     left = GathererSingleCardImage.fetchByName(leftName, forceReload);
-                    try {
-                        Thread.sleep(25);
-                    } catch (InterruptedException e) {
-                        System.out.println("Sleep not possible: " + e.getMessage());
-                    }
                     right = GathererSingleCardImage.fetchByName(rightName, forceReload);
                 } else {
                     left = MagicCardsInfoSingleCardImage.fetchByName(leftName, forceReload);
-                    try {
-                        Thread.sleep(25);
-                    } catch (InterruptedException e) {
-                        System.out.println("Sleep not possible: " + e.getMessage());
-                    }
                     right = MagicCardsInfoSingleCardImage.fetchByName(rightName, forceReload);
                 }
                 if(left != null && right != null){

@@ -41,6 +41,11 @@ public class GathererSingleCardImage extends SingleCardImage {
                 // aus 'cache'
                 gathererImage = new GathererSingleCardImage(name, image, true);
             } else {
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    System.out.println("Sleep not possible: " + e.getMessage());
+                }
                 URL imageURL = new URL(GATHERER_URL + name);
                 FileFetcher.fetchFile(imageURL, ContentType.JPEG, image);
                 gathererImage = new GathererSingleCardImage(name, image, false);
