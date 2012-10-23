@@ -2,8 +2,11 @@ package splitcuber;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -72,6 +75,7 @@ public class SplitCuber {
         }
 
         System.out.println("Generating " + splitCards.size() + " split cards...");
+        ArrayList<String> successSplitcards = new ArrayList<String>();
         for (SplitPair<String, String> pair : splitCards) {
             String leftName = checkName(pair.getLeft());
             String rightName = checkName(pair.getRight());
@@ -95,12 +99,38 @@ public class SplitCuber {
                     }
                     File splitOut = new File(PATH + splitCardName.replaceAll("[\\\\\\/]", "#") + ".jpg");
                     ImageIO.write(split.getSplitImage(), "JPG", splitOut);
+                    successSplitcards.add(splitOut.getName());
                     System.out.println("Succesfully generated '" + splitCardName + "'");
                 } else {
                     throw new ImageError("Error loading image files");
                 }
             } catch (ImageError | DictionaryError | WebFetchError | IOException e) {
                 System.out.println("Error generating '" + splitCardName + "': " + e.getMessage());
+            }
+        }
+        
+        
+        Writer out = null;
+        try{
+            StringBuilder HTMLText = new StringBuilder();
+            HTMLText.append("<html>\n<body>\n");
+            for(String s : successSplitcards){
+                HTMLText.append("<img src=\""+s.replaceAll("#", "%23")+"\" />\n");
+            }
+            HTMLText.append("</body>\n</html>");
+            String HTMLpath = PATH + "_cardlist.html";
+            out = new OutputStreamWriter(new FileOutputStream(HTMLpath));
+            out.write(HTMLText.toString());
+            System.out.println("Wrote list as HTML (for printing) to " + HTMLpath);
+        } catch (IOException e){
+            System.out.println("could not write list as HTML: " + e.getMessage());
+        } finally {
+            if(out != null){
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    // don't care
+                }
             }
         }
         
@@ -125,7 +155,18 @@ public class SplitCuber {
                     for (int i = 0; i < possibilities.length; i++) {
                         System.out.println("(" + (i + 1) + ") " + possibilities[i]);
                     }
-                    int choice = in.nextInt();
+                    int choice = 0;
+                    while(choice == 0){
+                        try{
+                            choice = in.nextInt();
+                        }catch (InputMismatchException e) {
+                            choice = 0;
+                        }
+                        if(choice < 1 || choice >= possibilities.length){
+                            System.out.println("Invalid input, try again");
+                            choice = 0;
+                        }
+                    }
                     in.close();
                     return possibilities[choice - 1];
                 }
@@ -135,9 +176,6 @@ public class SplitCuber {
             System.out.println("Problem using card dictionary: " + e.getMessage());
             System.exit(-1);
 
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input");
-            System.exit(-1);
         } catch (Exception e) {
             System.out.println("A problem occurred: " + e.getMessage());
             System.exit(-1);
