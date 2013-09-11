@@ -25,8 +25,7 @@ import splitcuber.image.fetch.CachedFetch;
 import splitcuber.image.fetch.FetchSource;
 
 public class SplitCuber {
-	private static final String CACHE = "cache/";
-    private static final String PATH = CACHE + "splitcards/";
+    private static final String PATH = "cache/splitcards/";
 
     public static void main(String[] args) {
 
@@ -74,7 +73,14 @@ public class SplitCuber {
             System.exit(0);
         }
 
-        System.out.println("Generating " + splitCards.size() + " split cards...");
+        System.out.println("Generating " + splitCards.size() + " split cards..."); 
+        File path = new File(PATH);
+        if (!path.exists()) {
+            if(!path.mkdirs())
+            	System.out.println("Failed to create path: " + path.getPath());
+        } else{
+        	System.out.println("Path exists: " + path.getPath());
+        }
         ArrayList<String> successSplitcards = new ArrayList<String>();
         for (SplitPair<String, String> pair : splitCards) {
             String leftName = checkName(pair.getLeft());
@@ -89,16 +95,6 @@ public class SplitCuber {
 
                 if(left != null && right != null){
                     SplitCard split = new SplitCard(left, right);
-                    File cache = new File(CACHE);
-                    if (!cache.exists()) {
-                        if(!cache.mkdir())
-                        	System.out.println("Failed to create path: " + cache.getPath());
-                    }
-                    File path = new File(PATH);
-                    if (!path.exists()) {
-                        if(!path.mkdir())
-                        	System.out.println("Failed to create path: " + path.getPath());
-                    }
                     File splitOut = new File(PATH + splitCardName.replaceAll("[\\\\\\/]", "#") + ".jpg");
                     ImageIO.write(split.getSplitImage(), "JPG", splitOut);
                     successSplitcards.add(splitOut.getName());
