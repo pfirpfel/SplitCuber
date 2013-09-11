@@ -2,8 +2,9 @@ package splitcuber.dict;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,33 +14,40 @@ import splitcuber.error.DictionaryError;
 
 public class CardDictionary {
     private static CardDictionary instance = null;
-    private static final String CARDLIST_PATH = "res/cardlist.txt";
+    private static final String CARDLIST_PATH = "cardlist.txt";
     private String[] cardList;
 
     private CardDictionary() throws DictionaryError {
         ArrayList<String> tempList = new ArrayList<String>();
-        FileReader fr = null;
         BufferedReader txtReader = null;
+        InputStreamReader isr = null;
+        InputStream is = null;
 
         try {
-            fr = new FileReader(CARDLIST_PATH);
-            txtReader = new BufferedReader(fr);
+        	is = CardDictionary.class.getClassLoader().getResourceAsStream(CARDLIST_PATH);
+        	isr = new InputStreamReader(is);
+            txtReader = new BufferedReader(isr);
             String currentLine;
             while ((currentLine = txtReader.readLine()) != null && !currentLine.equals("")) {
                 tempList.add(currentLine);
             }
-
         } catch (FileNotFoundException e) {
             throw new DictionaryError(e.getMessage());
         } catch (IOException e) {
             throw new DictionaryError(e.getMessage());
+        } catch (Exception e) {
+            throw new DictionaryError(e.getMessage());
+            
         } finally {
             try {
                 if (txtReader != null) {
                     txtReader.close();
                 }
-                if (fr != null) {
-                    fr.close();
+                if (isr != null) {
+                    isr.close();
+                }
+                if (is != null) {
+                    is.close();
                 }
             } catch (IOException e) {
                 throw new DictionaryError(e.getMessage());
