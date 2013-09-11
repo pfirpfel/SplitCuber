@@ -38,10 +38,17 @@
 				<attribute name="Main-Class" value="splitcuber.SplitCuber" />
 			</manifest>
 		</jar>
+		<copy todir="${jar}">
+			<fileset dir="${res}">
+				<include name="**/*.tsv" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="run" depends="jar">
-		<java jar="${jar}/splitcuber.jar" fork="true" />
+		<java jar="${jar}/splitcuber.jar" fork="true">
+			<arg value="${jar}/short.tsv" />
+		</java>
 	</target>
 
 
