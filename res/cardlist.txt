@@ -6330,7 +6330,7 @@ Legacy's Allure
 Legacy Weapon
 Legerdemain
 Legion Loyalist
-Legions of Lim-Dï¿½l
+Legions of Lim-Dûl
 Leonin Abunas
 Leonin Arbiter
 Leonin Armorguard
@@ -6443,12 +6443,12 @@ Liliana's Shade
 Liliana's Specter
 Liliana Vess
 Lilting Refrain
-Lim-Dï¿½l's Cohort
-Lim-Dï¿½l's Hex
-Lim-Dï¿½l's High Guard
-Lim-Dï¿½l's Paladin
-Lim-Dï¿½l's Vault
-Lim-Dï¿½l the Necromancer
+Lim-Dûl's Cohort
+Lim-Dûl's Hex
+Lim-Dûl's High Guard
+Lim-Dûl's Paladin
+Lim-Dûl's Vault
+Lim-Dûl the Necromancer
 Limestone Golem
 Limited Resources
 Linessa, Zephyr Mage
@@ -7783,7 +7783,7 @@ Oathkeeper, Takeno's Daisho
 Oath of Druids
 Oath of Ghouls
 Oath of Lieges
-Oath of Lim-Dï¿½l
+Oath of Lim-Dûl
 Oath of Mages
 Oath of Scholars
 Oathsworn Giant
