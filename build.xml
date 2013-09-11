@@ -1,0 +1,48 @@
+<project name="SplitCuber" default="run" basedir=".">
+	<property name="src" location="src" />
+	<property name="bin" location="bin" />
+	<property name="jar" location="jar" />
+	<property name="lib" location="lib" />
+	<property name="res" location="res" />
+	<path id="classpath">
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<target name="clean" description="Deletes the output folders">
+		<delete dir="${bin}" />
+		<delete dir="${jar}" />
+	</target>
+
+	<target name="prepare" depends="clean" description="Creates the output folders">
+		<mkdir dir="${bin}" />
+		<mkdir dir="${jar}" />
+	</target>
+
+	<target name="compile" depends="prepare" description="Compiles the project">
+		<javac srcdir="${src}" destdir="${bin}" classpathref="classpath" includeantruntime="no" />
+		<copy todir="${bin}">
+			<fileset dir="${res}">
+				<include name="**/*.txt" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="jar" depends="compile" description="Create jar distribution">
+		<jar jarfile="${jar}/splitcuber.jar" basedir="${bin}">
+			<zipgroupfileset dir="${lib}" includes="**/*.jar" />
+			<!--<fileset dir="${res}">
+				<include name="**/*.txt" />
+			</fileset>-->
+			<manifest>
+				<attribute name="Main-Class" value="splitcuber.SplitCuber" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar">
+		<java jar="${jar}/splitcuber.jar" fork="true" />
+	</target>
+
+
+</project>
